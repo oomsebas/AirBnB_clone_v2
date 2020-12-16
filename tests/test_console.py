@@ -46,6 +46,8 @@ class TestConsole(unittest.TestCase):
             HBNBCommand().onecmd("      ")
             self.assertEqual(buf.getvalue(), "")
 
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == "db",
+                     "only test for db storage, not file storage")
     def test_create(self):
         """Testing create method"""
         with patch('sys.stdout', new=StringIO()) as buf:
