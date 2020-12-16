@@ -75,7 +75,7 @@ class TestConsole(unittest.TestCase):
             self.assertNotEqual(u_id, "")
 
         with patch('sys.stdout', new=StringIO()) as buf:
-            HBNBCommand().onecmd('create Place name="R" city_id={}\user_id={}'
+            HBNBCommand().onecmd('create Place name="R" city_id={} user_id={}'
                                  .format(ct_id, u_id))
             pl_id = buf.getvalue()
             self.assertNotEqual(pl_id, "")
