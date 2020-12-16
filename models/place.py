@@ -61,5 +61,7 @@ class Place(BaseModel, Base):
 
         @amenities.setter
         def amenities(self, obj=None):
+            """handles append method for adding an Amenity.id to the attribute
+            amenity_ids"""
             if obj and obj.__class__.__name__ == "Amenity":
                 self.amenity_ids.append(obj.id)

@@ -20,6 +20,7 @@ classes = {'BaseModel': BaseModel, 'User': User, 'Place': Place,
 
 
 class DBStorage:
+    """Manages database storage engine mode"""
     __engine = None
     __session = None
 
