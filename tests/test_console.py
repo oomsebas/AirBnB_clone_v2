@@ -46,8 +46,6 @@ class TestConsole(unittest.TestCase):
             HBNBCommand().onecmd("      ")
             self.assertEqual(buf.getvalue(), "")
 
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == "db",
-                     "only test for db storage, not file storage")
     def test_create(self):
         """Testing create method"""
         with patch('sys.stdout', new=StringIO()) as buf:
@@ -61,31 +59,34 @@ class TestConsole(unittest.TestCase):
             self.assertEqual(buf.getvalue(), expected)
 
         with patch('sys.stdout', new=StringIO()) as buf:
-            HBNBCommand().onecmd("create BaseModel")
+            HBNBCommand().onecmd('create State name="Texas"')
+            st_id = buf.getvalue()
+            self.assertNotEqual(st_id, "")
+
+        with patch('sys.stdout', new=StringIO()) as buf:
+            HBNBCommand().onecmd('create City name="Houston" state_id={}'.
+                                 format(st_id))
+            ct_id = buf.getvalue()
+            self.assertNotEqual(ct_id, "")
+
+        with patch('sys.stdout', new=StringIO()) as buf:
+            HBNBCommand().onecmd('create User email="al@al.com" password="pd"')
+            u_id = buf.getvalue()
+            self.assertNotEqual(u_id, "")
+
+        with patch('sys.stdout', new=StringIO()) as buf:
+            HBNBCommand().onecmd('create Place name="R" city_id={}\user_id={}'
+                                 .format(ct_id, u_id))
+            pl_id = buf.getvalue()
+            self.assertNotEqual(pl_id, "")
+
+        with patch('sys.stdout', new=StringIO()) as buf:
+            HBNBCommand().onecmd('create Amenity name="Kitchen"')
             self.assertNotEqual(buf.getvalue(), "")
 
         with patch('sys.stdout', new=StringIO()) as buf:
-            HBNBCommand().onecmd("create Amenity")
-            self.assertNotEqual(buf.getvalue(), "")
-
-        with patch('sys.stdout', new=StringIO()) as buf:
-            HBNBCommand().onecmd("create User")
-            self.assertNotEqual(buf.getvalue(), "")
-
-        with patch('sys.stdout', new=StringIO()) as buf:
-            HBNBCommand().onecmd("create City")
-            self.assertNotEqual(buf.getvalue(), "")
-
-        with patch('sys.stdout', new=StringIO()) as buf:
-            HBNBCommand().onecmd("create State")
-            self.assertNotEqual(buf.getvalue(), "")
-
-        with patch('sys.stdout', new=StringIO()) as buf:
-            HBNBCommand().onecmd("create Place")
-            self.assertNotEqual(buf.getvalue(), "")
-
-        with patch('sys.stdout', new=StringIO()) as buf:
-            HBNBCommand().onecmd("create Review")
+            HBNBCommand().onecmd('create Review place_id={} user_id={}\
+            text="ok"'.format(pl_id, u_id))
             self.assertNotEqual(buf.getvalue(), "")
 
     def test_show(self):
