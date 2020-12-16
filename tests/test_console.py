@@ -17,6 +17,10 @@ from models.place import Place
 from models.review import Review
 from models.engine.file_storage import FileStorage
 from unittest.mock import patch
+import MySQLdb
+
+tbl_cls = {"states": State, "cities": City, "places": Place,
+           "amenities": Amenity, "users": User, "reviews": Review}
 
 
 class TestConsole(unittest.TestCase):
@@ -81,6 +85,29 @@ class TestConsole(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as buf:
             HBNBCommand().onecmd("create Review")
             self.assertNotEqual(buf.getvalue(), "")
+
+        @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != "db",
+                         "only test for db storage, not file storage")
+        with patch('sys.stdout', new=StringIO()) as buf:
+            HBNBCommand().onecmd('create State name="California"')
+            HBNBCommand().onecmd('create City name="Medellin"')
+            HBNBCommand().onecmd('create Amenity')
+            HBNBCommand().onecmd('create Place')
+            HBNBCommand().onecmd('create User')
+            HBNBCommand().onecmd('create Review')
+            db = MySQLdb.connect(user=os.getenv('HBNB_MYSQL_USER'),
+                                 passwd=os.getenv('HBNB_MYSQL_PWD'),
+                                 db=os.getenv('HBNB_MYSQL_DB'))
+            cur = db.cursor()
+            for tbl in tbl_cls:
+                rows = cur.execute("SELECT COUNT (*) FROM {}".format(tbl))
+                obj1 = tbl_cls[tbl]()
+                models.storage.new(obj1)
+                models.storage.save()
+                rows_fin = cur.execute("SELECT COUNT (*) FROM {}".format(tbl))
+                self.assertTrue(rows + 1, rows_fin)
+            cur.close()
+            db.close()
 
     def test_show(self):
         """Testing show method"""
