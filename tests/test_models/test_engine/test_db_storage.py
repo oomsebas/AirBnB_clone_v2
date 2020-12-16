@@ -32,7 +32,7 @@ class test_dbStorage(unittest.TestCase):
                      "only test for db storage, not file storage")
     def test_all(self):
         """Test all method"""
-        d = models.storage.all()
+        d = storage.all()
         self.assertTrue(type(d), dict)
 
     @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != "db",
@@ -44,11 +44,10 @@ class test_dbStorage(unittest.TestCase):
                              db=os.getenv('HBNB_MYSQL_DB'))
         cur = db.cursor()
         for tbl in tbl_cls:
-            rows = cur.execute("SELECT COUNT (*) FROM {}".format(tbl))
+            rows = cur.execute("SELECT COUNT(*) FROM {}".format(tbl))
             obj1 = tbl_cls[tbl]()
-            models.storage.new(obj1)
-            models.storage.save()
-            rows_final = cur.execute("SELECT COUNT (*) FROM {}".format(tbl))
+            storage.new(obj1)
+            rows_final = cur.execute("SELECT COUNT(*) FROM {}".format(tbl))
             self.assertTrue(rows + 1, rows_final)
         cur.close()
         db.close()
