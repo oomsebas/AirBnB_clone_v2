@@ -2,8 +2,8 @@
 # sets up your web servers for the deployment
 sudo apt-get -y update
 sudo apt_get install -y nginx
-mkdir -p /data/web_static/releases/test/
-mkdir -p /data/web_static/shared/
+sudo mkdir -p /data/web_static/releases/test/
+sudo mkdir -p /data/web_static/shared/
 echo "Holberton school" | sudo tee /data/web_static/releases/test/
 sudo ln -sf /data/web_static/current /data/web_static/releases/test/
 sudo chown -R ubuntu: /data/
