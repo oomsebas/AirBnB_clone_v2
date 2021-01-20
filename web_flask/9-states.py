@@ -21,10 +21,8 @@ def states(id=None):
     res = []
     states1 = None
     if id:
-        for key, states in states_list.items():
-            if id == states.id:
-                states1 = states
-                break
+        if 'State.' + id in states_list:
+            states1 = states_list.get('State.' + id)
     else:
         for key, states in states_list.items():
             res.append({'id': states.id, 'name': states.name})
