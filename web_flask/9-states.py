@@ -25,11 +25,10 @@ def states(id=None):
             if id == states.id:
                 states1 = states
                 break
-        return render_template('9-states.html', state_city=states1)
     else:
         for key, states in states_list.items():
             res.append({'id': states.id, 'name': states.name})
-        return render_template('9-states.html', states_lt=res)
+    return render_template('9-states.html', states_lt=res, state_city=states1)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
