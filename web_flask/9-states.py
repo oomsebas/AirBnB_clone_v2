@@ -24,12 +24,12 @@ def states():
 @app.route('/states/<id>', strict_slashes=False)
 def state_by_id(id):
     states_list = storage.all(State)
-    res1 = []
+    states1 = None
     for key, states in states_list.items():
         if id == states.id:
-            res.append({'id': states.id, 'name': states.name,
-                        'cities': states.cities})
-    return render_template('9-states.html', state_city=res1)
+            states1 = states
+            break
+    return render_template('9-states.html', state_city=states1)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)
