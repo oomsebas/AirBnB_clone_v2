@@ -21,12 +21,12 @@ def states():
     return render_template('9-states.html', states_lt=res)
 
 
-@app.route('/states/<string:id>', strict_slashes=False)
+@app.route('/states/<id>', strict_slashes=False)
 def state_by_id(id):
     states_list = storage.all(State)
     res = []
     for key, states in states_list.items():
-        if id is states.id:
+        if id == states.id:
             res.append({'id': states.id, 'name': states.name,
                         'cities': states.cities})
     return render_template('9-states.html', state_city=res)
