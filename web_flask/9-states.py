@@ -18,14 +18,14 @@ def teardown_storage(exception):
 def states(id=None):
     """state and cities render"""
     states_list = storage.all(State)
-    res = []
+    res = None
     states1 = None
     if id:
         if 'State.' + id in states_list:
             states1 = states_list.get('State.' + id)
     else:
-        for key, states in states_list.items():
-            res.append({'id': states.id, 'name': states.name})
+        res = states_list
+
     return render_template('9-states.html', states_lt=res, state_city=states1)
 
 if __name__ == '__main__':
