@@ -19,8 +19,8 @@ def states(id=None):
     """state and cities render"""
     states_list = storage.all(State)
     res = []
+    states1 = None
     if id:
-        states1 = None
         for key, states in states_list.items():
             if id == states.id:
                 states1 = states
