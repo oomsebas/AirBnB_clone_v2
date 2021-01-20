@@ -10,8 +10,8 @@
       {% for state in states_lt | sort(attribute='name') %}
       <LI>{{state.id}}: <B>{{state.name}}</B></LI>
       {% endfor %}
-      {% endif %}
     </UL>
+    {% endif %}
     {% if state_city %}
     <H1>State: {{state_city[0].name}}</H1>
     <H3>Cities:</H3>
