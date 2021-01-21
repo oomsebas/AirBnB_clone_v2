@@ -25,8 +25,8 @@ def states(id=None):
             states1 = states_list.get('State.' + id)
     else:
         res = states_list
-
-    return render_template('9-states.html', states_lt=res, state_city=states1)
+    return render_template('9-states.html', states_lt=res,
+                           state_city=states1, id=id)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)
