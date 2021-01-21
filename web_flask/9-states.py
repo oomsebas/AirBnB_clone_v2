@@ -23,7 +23,6 @@ def states(id=None):
     if id:
         if 'State.' + id in states_list:
             states1 = states_list.get('State.' + id)
-            print(states1)
     else:
         res = states_list
 
